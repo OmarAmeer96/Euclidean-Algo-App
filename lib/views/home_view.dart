@@ -36,58 +36,73 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'GCD Calculator App',
-          style: Styles.gtSectraFineRegular
-              .copyWith(fontSize: 30, fontWeight: FontWeight.bold),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            'GCD Calculator App',
+            style: Styles.gtSectraFineRegular
+                .copyWith(fontSize: 30, fontWeight: FontWeight.bold),
+          ),
         ),
-      ),
-      body: Column(
-        children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const SizedBox(
-                  height: 40,
-                ),
-                SizedBox(
-                  height: Responsive.screenHeight(context) * 0.1,
-                ),
-                Text(
-                  'GCD = $gcd',
-                  style: Styles.montserratBold.copyWith(
-                      fontSize: Responsive.textScaleFactor(context) * 55),
-                ),
-              ],
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: Responsive.screenHeight(context) * 0.26,
+                        ),
+                        Text(
+                          'GCD = $gcd',
+                          style: Styles.montserratBold.copyWith(
+                              fontSize:
+                                  Responsive.textScaleFactor(context) * 55),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const Expanded(
-            child: SizedBox(
-              height: 20,
-            ),
-          ),
-          CustomTextFields(
-            number1Controller: number1Controller,
-            number2Controller: number2Controller,
-          ),
-          GCDActions(
-            onPressed1: _calculateGCD,
-            onPressed2: () {
-              setState(() {
-                gcd = 0;
-                number1Controller.clear();
-                number2Controller.clear();
-              });
-            },
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-        ],
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomTextFields(
+                    number1Controller: number1Controller,
+                    number2Controller: number2Controller,
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  GCDActions(
+                    onPressed1: _calculateGCD,
+                    onPressed2: () {
+                      setState(() {
+                        gcd = 0;
+                        number1Controller.clear();
+                        number2Controller.clear();
+                      });
+                    },
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
